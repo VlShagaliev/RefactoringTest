@@ -4,6 +4,10 @@ namespace LegacyApp
 {
     public class UserService
     {
+        private int creditAge = 21;
+
+        private int creditValueLimit = 500;
+
         private void CheckCredit(User user)
         {
             switch (user.Client.Name)
@@ -44,7 +48,7 @@ namespace LegacyApp
 
             if (timeNow.Month < dateOfBirth.Month || (timeNow.Month == dateOfBirth.Month && timeNow.Day < dateOfBirth.Day)) userAge--;
 
-            if (userAge < 21) return false;
+            if (userAge < creditAge) return false;
 
             var clientRepository = new ClientRepository();
             var client = clientRepository.GetById(clientId);
@@ -60,7 +64,7 @@ namespace LegacyApp
 
             CheckCredit(user);
 
-            if (user.HasCreditLimit && user.CreditLimit < 500) return false;
+            if (user.HasCreditLimit && user.CreditLimit < creditValueLimit) return false;
 
             UserDataAccess.AddUser(user);
 
